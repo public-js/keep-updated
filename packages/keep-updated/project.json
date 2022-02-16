@@ -1,0 +1,42 @@
+{
+  "root": "packages/keep-updated",
+  "sourceRoot": "packages/keep-updated/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/keep-updated/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/keep-updated"],
+      "options": {
+        "jestConfig": "packages/keep-updated/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/keep-updated",
+        "tsConfig": "packages/keep-updated/tsconfig.lib.json",
+        "packageJson": "packages/keep-updated/package.json",
+        "main": "packages/keep-updated/src/keep-updated.ts",
+        "assets": ["packages/keep-updated/README.md", "LICENSE"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "npm publish --tag=latest --access public",
+        "cwd": "dist/packages/keep-updated"
+      }
+    }
+  },
+  "tags": []
+}

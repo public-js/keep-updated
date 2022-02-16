@@ -1,0 +1,12 @@
+{
+  "name": "@public-js/keep-updated",
+  "version": "0.0.1",
+  "description": "",
+  "bin": {
+    "keep-updated": "./src/keep-updated.js"
+  },
+  "license": "MIT",
+  "author": "Public JS <public-js@muffin.blue> (https://github.com/public-js/public-js)",
+  "repository": "https://github.com/public-js/keep-updated",
+  "homepage": "https://github.com/public-js/keep-updated"
+}
