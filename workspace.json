@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "projects": {
+    "keep-updated": "packages/keep-updated"
+  }
+}
