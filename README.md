@@ -6,7 +6,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/fd9ab5088d3442af87a0f335688094fe)](https://www.codacy.com/gh/public-js/keep-updated/dashboard)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/public-js/keep-updated.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/public-js/keep-updated/context:javascript)
-[![codecov](https://codecov.io/gh/public-js/keep-updated/branch/main/graph/badge.svg?token=TOKEN)](https://codecov.io/gh/public-js/keep-updated)
+[![codecov](https://codecov.io/gh/public-js/keep-updated/branch/main/graph/badge.svg?token=BbVsomZtwx)](https://codecov.io/gh/public-js/keep-updated)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5d950db51954705b1ca3/maintainability)](https://codeclimate.com/github/public-js/keep-updated/maintainability)
 
 ---
