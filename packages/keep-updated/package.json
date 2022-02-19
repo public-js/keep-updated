@@ -8,5 +8,8 @@
   "license": "MIT",
   "author": "Public JS <public-js@muffin.blue> (https://github.com/public-js/public-js)",
   "repository": "https://github.com/public-js/keep-updated",
-  "homepage": "https://github.com/public-js/keep-updated"
+  "homepage": "https://github.com/public-js/keep-updated",
+  "engines": {
+    "node": ">=10.3.0"
+  }
 }
