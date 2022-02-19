@@ -1,8 +1,18 @@
 {
-  "name": "@public-js/keep-updated--space",
-  "version": "0.0.0",
+  "name": "keep-updated",
+  "version": "0.0.2",
   "description": "",
   "scripts": {
+    "wf:prettier": "prettier '**/*.{js,ts,scss,html,md,json,yml}'",
+    "cd:root:lint": "eslint '*.{js,ts}' --no-ignore",
+    "cd:ver-bump": "standard-version",
+    "cd:gh-release": "cc-github-releaser --prefix v",
+    "cd:afd:test": "nx affected --target test --parallel",
+    "cd:afd:build": "nx affected --target build --parallel",
+    "cd:all:lint": "nx run-many --target lint --all --parallel",
+    "cd:all:test": "nx run-many --target test --all --parallel --codeCoverage --coverageReporters=lcov",
+    "cd:all:build": "nx run-many --target build --all --parallel",
+    "cd:all:publish": "nx run-many --target publish --all",
     "prepare": "husky install"
   },
   "private": true,
@@ -21,6 +31,7 @@
     "@nrwl/nx-cloud": "13.1.4",
     "@nrwl/tao": "13.8.1",
     "@nrwl/workspace": "13.8.1",
+    "@public-js/cc-github-releaser": "^1.1.0",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "~5.10.0",

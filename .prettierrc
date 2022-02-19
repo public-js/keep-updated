@@ -1,6 +1,4 @@
 {
-    "arrow-body-style": "off",
-    "prefer-arrow-callback": "off",
     "printWidth": 120,
     "semi": true,
     "singleQuote": true,
@@ -25,6 +23,12 @@
             "files": "*.json",
             "options": {
                 "singleQuote": false,
+                "tabWidth": 2
+            }
+        },
+        {
+            "files": ["*.md", "*.yml", "*.yaml"],
+            "options": {
                 "tabWidth": 2
             }
         }
