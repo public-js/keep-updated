@@ -1,6 +1,6 @@
 {
   "name": "@public-js/keep-updated",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Hassle-free dependency updates",
   "bin": {
     "keep-updated": "./src/keep-updated.js"
