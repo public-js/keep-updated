@@ -17,7 +17,8 @@
   },
   "private": true,
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "yargs": "^16.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.0",
