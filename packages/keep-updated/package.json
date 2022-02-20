@@ -5,6 +5,9 @@
   "bin": {
     "keep-updated": "./src/keep-updated.js"
   },
+  "dependencies": {
+    "yargs": "^16.0.0"
+  },
   "license": "MIT",
   "author": "Public JS <public-js@muffin.blue> (https://github.com/public-js/public-js)",
   "repository": "https://github.com/public-js/keep-updated",

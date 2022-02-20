@@ -33,22 +33,26 @@ export function getPackageManagerCommand(
     packageManager: PackageManager = detectPackageManager(),
 ): PackageManagerCommands {
     const commands: Record<PackageManager, () => PackageManagerCommands> = {
-        yarn: () => ({
-            install: 'yarn',
-            add: 'yarn add -W',
-            addDev: 'yarn add -D -W',
-            rm: 'yarn remove',
-            exec: 'yarn',
-            run: (script: string, args: string) => `yarn ${script} ${args}`,
-            list: 'yarn list',
-            outdated: 'yarn outdated',
-        }),
+        yarn: () => {
+            const [major] = getPackageManagerVersion('yarn').split('.');
+            const isV1 = +major < 2;
+            return {
+                install: 'yarn',
+                add: 'yarn add -W',
+                addDev: 'yarn add -D -W',
+                rm: 'yarn remove',
+                exec: 'yarn',
+                run: (script: string, args: string) => `yarn ${script} ${args}`,
+                list: 'yarn list',
+                dedupe: 'yarn dedupe',
+                outdated: 'yarn outdated',
+                audit: isV1 ? 'yarn audit' : 'yarn npm audit',
+                auditFix: null,
+            };
+        },
         pnpm: () => {
             const [major, minor] = getPackageManagerVersion('pnpm').split('.');
-            let useExec = false;
-            if (+major >= 6 && +minor >= 13) {
-                useExec = true;
-            }
+            const useExec = +major >= 6 && +minor >= 13;
             return {
                 install: 'pnpm install --no-frozen-lockfile', // explicitly disable in case of CI
                 add: 'pnpm add',
@@ -57,7 +61,10 @@ export function getPackageManagerCommand(
                 exec: useExec ? 'pnpm exec' : 'pnpx',
                 run: (script: string, args: string) => `pnpm run ${script} -- ${args}`,
                 list: 'pnpm ls --depth 100',
+                dedupe: null,
                 outdated: 'pnpm outdated',
+                audit: 'pnpm audit',
+                auditFix: 'pnpm audit --fix',
             };
         },
         npm: () => {
@@ -70,7 +77,10 @@ export function getPackageManagerCommand(
                 exec: 'npx',
                 run: (script: string, args: string) => `npm run ${script} -- ${args}`,
                 list: 'npm ls',
+                dedupe: 'npm dedupe',
                 outdated: 'npm outdated',
+                audit: 'npm audit',
+                auditFix: 'npm audit --fix',
             };
         },
     };

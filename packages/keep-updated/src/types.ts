@@ -1,4 +1,5 @@
-export type PackageManager = 'yarn' | 'pnpm' | 'npm';
+export const packageManagers = ['yarn', 'pnpm', 'npm'] as const;
+export type PackageManager = typeof packageManagers[number];
 
 export interface PackageManagerCommands {
     install: string;
@@ -8,7 +9,10 @@ export interface PackageManagerCommands {
     exec: string;
     list: string;
     run: (script: string, args: string) => string;
+    dedupe: string | null;
     outdated: string;
+    audit: string;
+    auditFix: string | null;
 }
 
 export interface UpdatedPackage {
@@ -22,4 +26,13 @@ export interface PackageJson {
     dependencies?: DepsObject;
     devDependencies?: DepsObject;
     'keep-updated': string[];
+}
+
+export interface KuOptions {
+    use?: PackageManager | undefined;
+    revert: boolean;
+    dedupe: boolean;
+    outdated: boolean;
+    audit: boolean;
+    auditFix: boolean;
 }
