@@ -1,6 +1,6 @@
 {
   "name": "keep-updated",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Hassle-free dependency updates",
   "scripts": {
     "wf:prettier": "prettier '**/*.{js,ts,scss,html,md,json,yml}'",
