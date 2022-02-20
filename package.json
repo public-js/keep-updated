@@ -1,7 +1,7 @@
 {
   "name": "keep-updated",
   "version": "0.1.0",
-  "description": "",
+  "description": "Hassle-free dependency updates",
   "scripts": {
     "wf:prettier": "prettier '**/*.{js,ts,scss,html,md,json,yml}'",
     "cd:root:lint": "eslint '*.{js,ts}' --no-ignore",
