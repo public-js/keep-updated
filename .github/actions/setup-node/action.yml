@@ -17,7 +17,7 @@ runs:
         registry-url: 'https://registry.npmjs.org'
 
     - name: Check node modules cache
-      id: cache-node-modules
+      id: locate-cache
       uses: actions/cache@v2
       with:
         path: |
@@ -29,7 +29,7 @@ runs:
 
     - name: Restore node modules from cache
       id: build-cache
-      if: steps.cache-node-modules.outputs.cache-hit == 'true'
+      if: steps.locate-cache.outputs.cache-hit == 'true'
       uses: actions/cache@v2
       with:
         path: |
@@ -39,7 +39,7 @@ runs:
         restore-keys: builds-cache-hash__${{ hashFiles('package-lock.json') }}
 
     - name: Fetch node modules to cache
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      if: steps.locate-cache.outputs.cache-hit != 'true'
       uses: actions/cache@v2
       with:
         path: ~/.npm
@@ -47,6 +47,6 @@ runs:
         restore-keys: npm-cache-hash__
 
     - name: Install fetched node modules
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      if: steps.locate-cache.outputs.cache-hit != 'true'
       run: npm ci
       shell: bash

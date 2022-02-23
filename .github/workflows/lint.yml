@@ -41,16 +41,16 @@ jobs:
       #- name: Lint-fix for manual internal PRs
       #  if: ${{ env.IS_FORK == 'false' && env.IS_MAIN == 'false' && env.IS_DBOT == 'false' }}
       #  run: |
-      #    npm run wf:prettier -- --write
-      #    TIMING=1 npm run cd:root:lint -- --fix
-      #    TIMING=1 npm run cd:all:lint -- --fix
+      #    npm run ci:space:format -- --write
+      #    TIMING=1 npm run ci:root:lint -- --fix
+      #    TIMING=1 npm run ci:all:lint -- --fix
 
       - name: Lint-check #for auto PRs, forks or main branch
         #if: ${{ env.IS_FORK == 'true' || env.IS_MAIN == 'true' || env.IS_DBOT == 'true' }}
         run: |
-          npm run wf:prettier -- --check
-          npm run cd:root:lint
-          npm run cd:all:lint
+          npm run ci:space:format -- --check
+          npm run ci:root:lint
+          npm run ci:all:lint
 
       #- name: Import GPG key
       #  uses: crazy-max/ghaction-import-gpg@v4

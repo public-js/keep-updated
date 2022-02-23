@@ -26,7 +26,7 @@
         "tsConfig": "packages/keep-updated/tsconfig.lib.json",
         "packageJson": "packages/keep-updated/package.json",
         "main": "packages/keep-updated/src/keep-updated.ts",
-        "assets": ["packages/keep-updated/README.md", "LICENSE"]
+        "assets": ["README.md", "LICENSE"]
       }
     },
     "publish": {

@@ -23,7 +23,7 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: Test all packages
-        run: npm run cd:all:test
+        run: npm run ci:all:test
 
       - name: Report to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1

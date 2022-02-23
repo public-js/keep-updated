@@ -40,11 +40,11 @@ jobs:
       - name: Bump packages version
         id: bump-version
         run: |
-          npm run cd:ver-bump -- --release-as ${{ github.event.inputs.mode }}
+          npm run cd:version-bump -- --release-as ${{ github.event.inputs.mode }}
           TIMING=1 echo "::set-output name=new_version::$(node -p "require('./package.json').version")"
 
       - name: Build all packages on main branch
-        run: npm run cd:all:build
+        run: npm run ci:all:build
 
       - name: Commit changes after bump
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -64,10 +64,10 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub release
-        run: npm run cd:gh-release
+        run: npm run cd:github-release
         env:
           GITHUB_TOKEN: ${{ secrets.BM_GITHUB_PAT }}
 
 concurrency:
-  group: create-release-${{ github.head_ref }}
+  group: release-${{ github.head_ref }}
   cancel-in-progress: true
