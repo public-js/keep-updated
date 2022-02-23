@@ -2,9 +2,6 @@
   "name": "@public-js/keep-updated",
   "version": "1.0.0",
   "description": "Hassle-free dependency updates",
-  "bin": {
-    "keep-updated": "./src/keep-updated.js"
-  },
   "dependencies": {
     "yargs": "^16.0.0"
   },
@@ -12,7 +9,11 @@
   "author": "Public JS <public-js@muffin.blue> (https://github.com/public-js/public-js)",
   "repository": "https://github.com/public-js/keep-updated",
   "homepage": "https://github.com/public-js/keep-updated",
+  "keywords": [],
   "engines": {
     "node": ">=10.3.0"
+  },
+  "bin": {
+    "keep-updated": "./src/keep-updated.js"
   }
 }
