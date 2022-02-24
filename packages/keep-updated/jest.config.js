@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     displayName: 'keep-updated',
     preset: '../../jest.preset.js',
     globals: {

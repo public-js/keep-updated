@@ -1,9 +1,10 @@
-import { PackageJson, PackageManager, PackageManagerCommands, UpdatedPackage } from './types';
-import * as cp from 'child_process';
-import * as fs from 'fs';
-import * as path from 'path';
+import { execSync } from 'node:child_process';
+import { existsSync, PathLike, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 
-export function quitWithError(err: string): void {
+import { PackageJson, PackageManager, PackageManagerCommands, UpdatedPackage } from './types.js';
+
+export function quitWithError(error: string): void {
     // process.stdout.write(err + '\n');
     // process.exit(1);
 
@@ -11,21 +12,21 @@ export function quitWithError(err: string): void {
     // error.stack = undefined;
     // throw error;
 
-    throw new Error(err);
+    throw new Error(error);
 }
 
 /// Borrowed from @nrwl/tao
-export function detectPackageManager(dir = ''): PackageManager {
-    return fs.existsSync(path.join(dir, 'yarn.lock'))
+export function detectPackageManager(directory = ''): PackageManager {
+    return existsSync(join(directory, 'yarn.lock'))
         ? 'yarn'
-        : fs.existsSync(path.join(dir, 'pnpm-lock.yaml'))
+        : existsSync(join(directory, 'pnpm-lock.yaml'))
         ? 'pnpm'
         : 'npm';
 }
 
 /// Borrowed from @nrwl/tao
 export function getPackageManagerVersion(packageManager: PackageManager = detectPackageManager()): string {
-    return cp.execSync(`${packageManager} --version`).toString('utf-8').trim();
+    return execSync(`${packageManager} --version`).toString('utf8').trim();
 }
 
 /// Borrowed from @nrwl/tao
@@ -42,7 +43,7 @@ export function getPackageManagerCommand(
                 addDev: 'yarn add -D -W',
                 rm: 'yarn remove',
                 exec: 'yarn',
-                run: (script: string, args: string) => `yarn ${script} ${args}`,
+                run: (script: string, arguments_: string) => `yarn ${script} ${arguments_}`,
                 list: 'yarn list',
                 dedupe: 'yarn dedupe',
                 outdated: 'yarn outdated',
@@ -59,7 +60,7 @@ export function getPackageManagerCommand(
                 addDev: 'pnpm add -D',
                 rm: 'pnpm rm',
                 exec: useExec ? 'pnpm exec' : 'pnpx',
-                run: (script: string, args: string) => `pnpm run ${script} -- ${args}`,
+                run: (script: string, arguments_: string) => `pnpm run ${script} -- ${arguments_}`,
                 list: 'pnpm ls --depth 100',
                 dedupe: null,
                 outdated: 'pnpm outdated',
@@ -75,7 +76,7 @@ export function getPackageManagerCommand(
                 addDev: 'npm install -D',
                 rm: 'npm rm',
                 exec: 'npx',
-                run: (script: string, args: string) => `npm run ${script} -- ${args}`,
+                run: (script: string, arguments_: string) => `npm run ${script} -- ${arguments_}`,
                 list: 'npm ls',
                 dedupe: 'npm dedupe',
                 outdated: 'npm outdated',
@@ -88,22 +89,23 @@ export function getPackageManagerCommand(
 }
 
 /// Borrowed from @nrwl/tao
-export function updatePackageJson(packageJsonPath: fs.PathLike, updatedPackages: Record<string, UpdatedPackage>) {
+export function updatePackageJson(packageJsonPath: PathLike, updatedPackages: Record<string, UpdatedPackage>) {
     const json = readJsonFile<PackageJson>(packageJsonPath);
-    Object.keys(updatedPackages).forEach((pkgName: string) => {
-        if (updatedPackages[pkgName].type === 'dependencies') {
-            json.dependencies[pkgName] = updatedPackages[pkgName].version;
-        } else if (updatedPackages[pkgName].type === 'devDependencies') {
-            json.devDependencies[pkgName] = updatedPackages[pkgName].version;
+    const updatedKeys: string[] = Object.keys(updatedPackages);
+    for (const packageName of updatedKeys) {
+        if (updatedPackages[packageName].type === 'dependencies') {
+            json.dependencies[packageName] = updatedPackages[packageName].version;
+        } else if (updatedPackages[packageName].type === 'devDependencies') {
+            json.devDependencies[packageName] = updatedPackages[packageName].version;
         }
-    });
-    fs.writeFileSync(packageJsonPath, JSON.stringify(json, null, 2) + '\n', { encoding: 'utf-8' });
+    }
+    writeFileSync(packageJsonPath, JSON.stringify(json, null, 2) + '\n', { encoding: 'utf8' });
 }
 
-export function readJsonFile<T extends object>(filePath: fs.PathLike): T {
+export function readJsonFile<T extends object>(filePath: PathLike): T {
     try {
-        return JSON.parse(fs.readFileSync(filePath, 'utf-8')) as T;
-    } catch (e) {
-        quitWithError(e as string);
+        return JSON.parse(readFileSync(filePath, 'utf8')) as T;
+    } catch (error) {
+        quitWithError(error as string);
     }
 }

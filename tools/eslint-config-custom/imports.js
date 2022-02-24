@@ -5,7 +5,7 @@ module.exports = {
             'warn',
             {
                 groups: [
-                    ['^(@angular|@ngrx)/.*', '^rxjs(/.*|$)', '^(jasmine|jest)'],
+                    ['^(@angular|@ngrx)/.*', '^rxjs(/.*|$)', '^(jasmine|jest)', '^node:*'],
                     ['^(@public-js)/.*'],
                     // ['^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
                 ],
