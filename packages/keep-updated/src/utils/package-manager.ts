@@ -1,19 +1,9 @@
 import { execSync } from 'child_process';
-import { existsSync, PathLike, readFileSync, writeFileSync } from 'fs';
+import { existsSync } from 'fs';
 import { join } from 'path';
 
-import { PackageJson, PackageManager, PackageManagerCommands, UpdatedPackage } from './types.js';
-
-export function quitWithError(err: string): void {
-    // process.stdout.write(err + '\n');
-    // process.exit(1);
-
-    // const error: Error = new Error(err);
-    // error.stack = undefined;
-    // throw error;
-
-    throw new Error(err);
-}
+import { logger } from './logger';
+import { PackageManager, PackageManagerCommands, packageManagers } from './types';
 
 /// Borrowed from @nrwl/tao
 export function detectPackageManager(dir = ''): PackageManager {
@@ -37,10 +27,10 @@ export function getPackageManagerCommand(
                 install: 'yarn',
                 add: 'yarn add -W',
                 addDev: 'yarn add -D -W',
-                rm: 'yarn remove',
-                exec: 'yarn',
-                run: (script: string, args: string) => `yarn ${script} ${args}`,
-                list: 'yarn list',
+                // rm: 'yarn remove',
+                // exec: 'yarn',
+                // run: (script: string, args: string) => `yarn ${script} ${args}`,
+                // list: 'yarn list',
                 dedupe: 'yarn dedupe',
                 outdated: 'yarn outdated',
                 audit: isV1 ? 'yarn audit' : 'yarn npm audit',
@@ -48,16 +38,16 @@ export function getPackageManagerCommand(
             };
         },
         pnpm: () => {
-            const [major, minor] = getPackageManagerVersion('pnpm').split('.');
-            const useExec = +major >= 6 && +minor >= 13;
+            // const [major, minor] = getPackageManagerVersion('pnpm').split('.');
+            // const useExec = +major >= 6 && +minor >= 13;
             return {
                 install: 'pnpm install --no-frozen-lockfile', // explicitly disable in case of CI
                 add: 'pnpm add',
                 addDev: 'pnpm add -D',
-                rm: 'pnpm rm',
-                exec: useExec ? 'pnpm exec' : 'pnpx',
-                run: (script: string, args: string) => `pnpm run ${script} -- ${args}`,
-                list: 'pnpm ls --depth 100',
+                // rm: 'pnpm rm',
+                // exec: useExec ? 'pnpm exec' : 'pnpx',
+                // run: (script: string, args: string) => `pnpm run ${script} -- ${args}`,
+                // list: 'pnpm ls --depth 100',
                 dedupe: null,
                 outdated: 'pnpm outdated',
                 audit: 'pnpm audit',
@@ -70,10 +60,10 @@ export function getPackageManagerCommand(
                 install: 'npm install',
                 add: 'npm install',
                 addDev: 'npm install -D',
-                rm: 'npm rm',
-                exec: 'npx',
-                run: (script: string, args: string) => `npm run ${script} -- ${args}`,
-                list: 'npm ls',
+                // rm: 'npm rm',
+                // exec: 'npx',
+                // run: (script: string, args: string) => `npm run ${script} -- ${args}`,
+                // list: 'npm ls',
                 dedupe: 'npm dedupe',
                 outdated: 'npm outdated',
                 audit: 'npm audit',
@@ -84,24 +74,14 @@ export function getPackageManagerCommand(
     return commands[packageManager]();
 }
 
-/// Borrowed from @nrwl/tao
-export function updatePackageJson(packageJsonPath: PathLike, updatedPackages: Record<string, UpdatedPackage>) {
-    const json = readJsonFile<PackageJson>(packageJsonPath);
-    const updatedKeys: string[] = Object.keys(updatedPackages);
-    for (const pkgName of updatedKeys) {
-        if (updatedPackages[pkgName].type === 'dependencies') {
-            json.dependencies[pkgName] = updatedPackages[pkgName].version;
-        } else if (updatedPackages[pkgName].type === 'devDependencies') {
-            json.devDependencies[pkgName] = updatedPackages[pkgName].version;
-        }
+export function resolvePackageManager(pm?: PackageManager): { pm: PackageManager; pmc: PackageManagerCommands } {
+    if (pm && !packageManagers.includes(pm)) {
+        throw new Error(`Unknown package manager ${pm}`);
     }
-    writeFileSync(packageJsonPath, JSON.stringify(json, null, 2) + '\n', { encoding: 'utf8' });
-}
 
-export function readJsonFile<T extends object>(filePath: PathLike): T {
-    try {
-        return JSON.parse(readFileSync(filePath, 'utf8')) as T;
-    } catch (error) {
-        quitWithError(error as string);
-    }
+    pm = pm || detectPackageManager();
+    const pmc: PackageManagerCommands = getPackageManagerCommand(pm);
+
+    logger.info(`Using package manager ${pm}`);
+    return { pm, pmc };
 }

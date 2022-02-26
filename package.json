@@ -22,10 +22,12 @@
     "cd:github-release": "cc-github-releaser --prefix v",
     "___ Miscellaneous ___": "",
     "man:dev:update": "keep-updated",
+    "bnr": "npm run ci:all:build && node ./dist/packages/keep-updated/src/keep-updated.js",
     "prepare": "is-ci || husky install"
   },
   "private": true,
   "dependencies": {
+    "chalk": "^4.0.0",
     "tslib": "^2.0.0",
     "yargs": "^16.0.0"
   },
