@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/public-js/keep-updated/compare/1.0.0...2.0.0) (2022-02-26)
+
+
+### Features
+
+* improved logging, cli interface ([b7cdfa7](https://github.com/public-js/keep-updated/commit/b7cdfa782ff7003bef2d12b8ae9b1dca8fc64aa5))
+* improved logging, cli interface ([7156ba7](https://github.com/public-js/keep-updated/commit/7156ba7a36c927d40e735057ba7509e128598575))
+
 ## [1.0.0](https://github.com/public-js/keep-updated/compare/0.1.1...1.0.0) (2022-02-20)
 
 
