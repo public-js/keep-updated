@@ -1,3 +1,7 @@
+import { execSync, spawnSync } from 'child_process';
+import { existsSync } from 'fs';
+import { join } from 'path';
+
 import {
     detectPackageManager,
     getPackageManagerCommand,
@@ -14,9 +18,6 @@ import {
     packageManagers,
     UpdatedPackage,
 } from './types';
-import * as cp from 'child_process';
-import * as fs from 'fs';
-import * as path from 'path';
 
 interface ResolvedPackageJson {
     pjPath: string;
@@ -28,15 +29,15 @@ interface ResolvedPackageJson {
 type UpdatedPackages = Record<string, UpdatedPackage>;
 
 function resolvePackageJson(): ResolvedPackageJson {
-    const pjPath: string = path.join(process.cwd(), 'package.json');
-    if (!fs.existsSync(pjPath)) {
+    const pjPath: string = join(process.cwd(), 'package.json');
+    if (!existsSync(pjPath)) {
         quitWithError(`No package.json file found in ${process.cwd()}`);
     }
 
     const pjFile = readJsonFile<PackageJson>(pjPath);
 
     const packagesList: string[] | undefined = pjFile['keep-updated'];
-    if (!packagesList || !packagesList.length) {
+    if (!packagesList || packagesList.length === 0) {
         quitWithError(`No "keep-updated" array found in package.json file or it's empty`);
     }
 
@@ -44,7 +45,7 @@ function resolvePackageJson(): ResolvedPackageJson {
         deps: pjFile.dependencies || {},
         devDeps: pjFile.devDependencies || {},
     };
-    if (!Object.keys(deps).length && !Object.keys(devDeps).length) {
+    if (Object.keys(deps).length === 0 && Object.keys(devDeps).length === 0) {
         quitWithError('No packages found in package.json file');
     }
 
@@ -81,21 +82,21 @@ function updatePackages({
 }): UpdatedPackages {
     const updated: UpdatedPackages = {};
 
-    packagesList.forEach((pkgName: string) => {
+    for (const pkgName of packagesList) {
         if (deps[pkgName]) {
             const version = deps[pkgName];
             process.stdout.write(`Updating dependency '${pkgName}@${version}'` + '\n');
             updated[pkgName] = { version, type: 'dependencies' };
-            cp.execSync(`${pmc.add} ${pkgName}@${version}`, { stdio: [] });
+            execSync(`${pmc.add} ${pkgName}@${version}`, { stdio: [] });
         } else if (devDeps[pkgName]) {
             const version = devDeps[pkgName];
             process.stdout.write(`Updating devDependency '${pkgName}@${version}'` + '\n');
             updated[pkgName] = { version, type: 'devDependencies' };
-            cp.execSync(`${pmc.addDev} ${pkgName}@${version}`, { stdio: [] });
+            execSync(`${pmc.addDev} ${pkgName}@${version}`, { stdio: [] });
         } else {
             process.stdout.write(`Dependency '${pkgName}' not found in package.json.` + '\n');
         }
-    });
+    }
 
     return updated;
 }
@@ -113,7 +114,7 @@ function revertPackageJson({
     updatePackageJson(pjPath, updated);
 
     process.stdout.write('Syncing lock file' + '\n');
-    cp.execSync(pmc.install, { stdio: [] });
+    execSync(pmc.install, { stdio: [] });
 }
 
 export function keepUpdated(options: KuOptions): void {
@@ -127,19 +128,19 @@ export function keepUpdated(options: KuOptions): void {
     }
     if (options.dedupe && pmc.dedupe) {
         process.stdout.write('Deduplicating dependencies' + '\n');
-        cp.spawnSync(pmc.dedupe.split(' ')[0], pmc.dedupe.split(' ').slice(1), { stdio: [] });
+        spawnSync(pmc.dedupe.split(' ')[0], pmc.dedupe.split(' ').slice(1), { stdio: [] });
     }
     if (options.outdated) {
         process.stdout.write('Checking for outdated dependencies' + '\n');
-        cp.spawnSync(pmc.outdated.split(' ')[0], pmc.outdated.split(' ').slice(1), { stdio: 'inherit' });
+        spawnSync(pmc.outdated.split(' ')[0], pmc.outdated.split(' ').slice(1), { stdio: 'inherit' });
     }
     if (options.audit) {
         process.stdout.write('Checking for security issues' + '\n');
-        cp.spawnSync(pmc.audit.split(' ')[0], pmc.audit.split(' ').slice(1), { stdio: 'inherit' });
+        spawnSync(pmc.audit.split(' ')[0], pmc.audit.split(' ').slice(1), { stdio: 'inherit' });
     }
     if (options.auditFix && pmc.auditFix) {
         process.stdout.write('Trying to fix security issues' + '\n');
-        cp.spawnSync(pmc.auditFix.split(' ')[0], pmc.auditFix.split(' ').slice(1), { stdio: 'inherit' });
+        spawnSync(pmc.auditFix.split(' ')[0], pmc.auditFix.split(' ').slice(1), { stdio: 'inherit' });
     }
 }
 
