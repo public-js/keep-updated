@@ -1,9 +1,0 @@
-{
-  "name": "eslint-config-custom",
-  "version": "0.0.0",
-  "private": true,
-  "peerDependencies": {
-    "eslint-plugin-simple-import-sort": ">=7.0.0",
-    "eslint-plugin-unicorn": ">=41.0.0"
-  }
-}
