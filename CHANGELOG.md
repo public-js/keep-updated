@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/public-js/keep-updated/compare/2.0.0...2.0.1) (2022-02-26)
+
+
+### Bug Fixes
+
+* npm audit fix command typo ([21040ae](https://github.com/public-js/keep-updated/commit/21040ae559cefbcef512a81df5c6de295ba48eac))
+* npm audit fix command typo ([a3a9890](https://github.com/public-js/keep-updated/commit/a3a9890d19f789aaed5bc2116601d71110b5c3b3))
+
 ## [2.0.0](https://github.com/public-js/keep-updated/compare/1.0.0...2.0.0) (2022-02-26)
 
 
