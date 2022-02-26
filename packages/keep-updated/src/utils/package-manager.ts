@@ -67,7 +67,7 @@ export function getPackageManagerCommand(
                 dedupe: 'npm dedupe',
                 outdated: 'npm outdated',
                 audit: 'npm audit',
-                auditFix: 'npm audit --fix',
+                auditFix: 'npm audit fix',
             };
         },
     };
