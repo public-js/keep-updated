@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Hassle-free dependency updates",
   "dependencies": {
-    "yargs": "^16.0.0"
+    "yargs": "^17.0.0"
   },
   "license": "MIT",
   "author": "Public JS <public-js@muffin.blue> (https://github.com/public-js/public-js)",
@@ -11,8 +11,9 @@
   "homepage": "https://github.com/public-js/keep-updated",
   "keywords": [],
   "engines": {
-    "node": ">=10.3.0"
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
+  "type": "module",
   "bin": {
     "keep-updated": "./src/keep-updated.js"
   }

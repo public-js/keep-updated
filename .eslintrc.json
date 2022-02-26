@@ -5,7 +5,7 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "extends": ["custom/imports"],
+      "extends": ["plugin:@public-js/eslint-plugin-node/imports", "plugin:@public-js/eslint-plugin-node/unicornEsmOff"],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": [
           "error",

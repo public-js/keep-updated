@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import keepUpdated from './runner';
-import { PackageManager } from './types';
-import * as yargs from 'yargs';
+import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+
+import keepUpdated from './runner.js';
+import { PackageManager } from './types';
 
 const cli = yargs(hideBin(process.argv))
     .option('use', {

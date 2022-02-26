@@ -8,7 +8,7 @@ export interface PackageManagerCommands {
     rm: string;
     exec: string;
     list: string;
-    run: (script: string, args: string) => string;
+    run: (script: string, arguments_: string) => string;
     dedupe: string | null;
     outdated: string;
     audit: string;
