@@ -1,12 +1,32 @@
 #!/usr/bin/env node
 
-import yargs from 'yargs';
+import yargs, { Arguments } from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-import keepUpdated from './runner';
-import { PackageManager } from './types';
+import { add } from './runners/add';
+import { update } from './runners/update';
+import { KuCliArguments, PackageManager } from './utils/types';
 
-const cli = yargs(hideBin(process.argv))
+yargs(hideBin(process.argv))
+    .command({
+        command: 'update',
+        aliases: ['$0'],
+        describe: 'Update packages listed in "keepUpdated" array',
+        handler: (cli: Arguments<KuCliArguments>) =>
+            update({
+                use: cli.use ? (cli.use as PackageManager) : undefined,
+                revert: cli.revert,
+                dedupe: cli.dedupe,
+                outdated: cli.outdated,
+                audit: cli.audit,
+                auditFix: cli.auditFix,
+            }),
+    })
+    .command({
+        command: 'add [packages..]',
+        describe: 'Add packages to "keepUpdated" array',
+        handler: (cli: Arguments<KuCliArguments>) => add({ packages: cli.packages }),
+    })
     .option('use', {
         type: 'string',
         description:
@@ -44,13 +64,8 @@ const cli = yargs(hideBin(process.argv))
         description: 'Apply non-breaking fixes to vulnerable deps. Available only for pnpm and npm',
     })
     .usage('Usage: keep-updated [options]')
+    .parserConfiguration({
+        'strip-aliased': true,
+        'strip-dashed': true,
+    })
     .parse();
-
-keepUpdated({
-    use: cli.use ? (cli.use as PackageManager) : undefined,
-    revert: cli.revert,
-    dedupe: cli.dedupe,
-    outdated: cli.outdated,
-    audit: cli.audit,
-    auditFix: cli['audit-fix'],
-});

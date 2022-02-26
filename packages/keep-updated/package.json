@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Hassle-free dependency updates",
   "dependencies": {
+    "chalk": "^4.0.0",
     "yargs": "^16.0.0"
   },
   "license": "MIT",
