@@ -1,27 +1,29 @@
-const fs = require('fs');
-const path = require('path');
+import { existsSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+
+const cwd = process.cwd();
 
 const expandPath = (dirPath) => {
     let dirContents = [];
-    if (!fs.existsSync(dirPath)) {
+    if (!existsSync(dirPath)) {
         return dirContents;
     }
     try {
-        dirContents = fs.readdirSync(dirPath, { withFileTypes: true });
-    } catch (e) {
+        dirContents = readdirSync(dirPath, { withFileTypes: true });
+    } catch {
         return dirContents;
     }
     return dirContents
         .filter((entry) => entry.isDirectory())
-        .map((entry) => path.join(dirPath, entry.name, 'package.json'))
-        .filter((pjPath) => fs.existsSync(pjPath))
-        .map((pjPath) => pjPath.replace(__dirname, '.'));
+        .map((entry) => join(dirPath, entry.name, 'package.json'))
+        .filter((pjPath) => existsSync(pjPath))
+        .map((pjPath) => pjPath.replace(cwd, '.'));
 };
 
-const [packagesPath] = [path.join(__dirname, 'packages')];
+const [packagesPath] = [join(cwd, 'packages')];
 const [packages] = [expandPath(packagesPath)];
 
-module.exports = {
+export default {
     packageFiles: ['./package.json'],
     bumpFiles: ['./package.json', './package-lock.json', ...packages],
     tagPrefix: '',
