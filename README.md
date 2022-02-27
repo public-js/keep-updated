@@ -22,25 +22,29 @@ Add the package to your project by running:
 npm i -D @public-js/keep-updated
 ```
 
-Add the following array to your `package.json` and populate it with desired packages:
+Add the following array to your `package.json`:
 
 ```
-"keep-updated": []
+"keepUpdated": []
 ```
+
+Populate the array with desired packages either manually or by running `keep-updated add package1 package2`.
 
 Execute it directly:
 
 ```shell
-npx keep-updated
+keep-updated update --audit-fix
 ```
 
 or add the following to your root `package.json` file:
 
 ```
 "scripts": {
-  "keep-updated": "keep-updated"
+  "keep-updated": "keep-updated update --audit-fix"
 }
 ```
+
+Run `keep-updated --help` to find out about other options.
 
 ## How does it work
 
