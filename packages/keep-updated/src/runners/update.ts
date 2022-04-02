@@ -40,11 +40,13 @@ function runner(options: UpdateOptions): void {
         logger.info('__ Checking for outdated dependencies');
         spawnSync(pmc.outdated.split(' ')[0], pmc.outdated.split(' ').slice(1), { stdio: 'inherit' });
     }
-    if (options.audit) {
+
+    const auditFix = Boolean(options.auditFix && pmc.auditFix);
+    if (options.audit && !auditFix) {
         logger.info('__ Checking for security issues');
         spawnSync(pmc.audit.split(' ')[0], pmc.audit.split(' ').slice(1), { stdio: 'inherit' });
     }
-    if (options.auditFix && pmc.auditFix) {
+    if (auditFix) {
         logger.info('__ Trying to fix security issues');
         spawnSync(pmc.auditFix.split(' ')[0], pmc.auditFix.split(' ').slice(1), { stdio: 'inherit' });
     }
