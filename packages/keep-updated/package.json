@@ -1,6 +1,6 @@
 {
   "name": "@public-js/keep-updated",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Hassle-free dependency updates",
   "dependencies": {
     "chalk": "^4.0.0",

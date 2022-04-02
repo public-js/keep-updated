@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.2](https://github.com/public-js/keep-updated/compare/2.0.1...2.0.2) (2022-04-02)
+
+
+### Features
+
+* skip audit check if audit-fix is present ([1cb4344](https://github.com/public-js/keep-updated/commit/1cb434441f872c7966adbc83dc31c22e47a99e7a))
+* sort keepUpdated values when running update ([5d6041f](https://github.com/public-js/keep-updated/commit/5d6041fdeee5a7f3f38ca2542146fb483050b462))
+* tiny improvements ([c755e9d](https://github.com/public-js/keep-updated/commit/c755e9da395ff1124c07d22795973d65044d41bf))
+
 ### [2.0.1](https://github.com/public-js/keep-updated/compare/2.0.0...2.0.1) (2022-02-26)
 
 
