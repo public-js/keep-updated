@@ -1,7 +1,7 @@
 import { join } from 'path';
 
 import { logger } from '../utils/logger';
-import { updateJson } from '../utils/package-json';
+import { getKuContent, updateJson } from '../utils/package-json';
 import { AddOptions, PackageJson } from '../utils/types';
 
 export function add(options: AddOptions): void {
@@ -18,12 +18,7 @@ function runner(options: AddOptions): void {
     }
     const pjPath: string = join(process.cwd(), 'package.json');
     updateJson<PackageJson>(pjPath, (pjFile: PackageJson) => {
-        const [currentList, key]: [string[], string] = pjFile.keepUpdated
-            ? [pjFile.keepUpdated, 'keepUpdated']
-            : pjFile['keep-updated']
-            ? [pjFile['keep-updated'], 'keep-updated']
-            : [[], 'keepUpdated'];
-
+        const [currentList, key]: [string[], string] = getKuContent(pjFile);
         const updated: Set<string> = new Set([...currentList, ...options.packages]);
         pjFile[key] = [...updated.keys()].sort();
         return pjFile;
