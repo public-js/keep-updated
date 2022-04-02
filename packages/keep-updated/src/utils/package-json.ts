@@ -33,6 +33,9 @@ export function updatePackageJson(pjPath: PathLike, updatedPackages: UpdatedPack
             }
         }
 
+        const [currentList, key]: [string[], string] = getKuContent(pjFile);
+        pjFile[key] = currentList.sort();
+
         return pjFile;
     });
 }
@@ -68,4 +71,12 @@ export function updateJson<T extends object = object, U extends object = T>(
 ): void {
     const content: U = updateFn(readJson(filePath));
     writeJson(filePath, content);
+}
+
+export function getKuContent(pjFile: PackageJson): [string[], string] {
+    return pjFile.keepUpdated
+        ? [pjFile.keepUpdated, 'keepUpdated']
+        : pjFile['keep-updated']
+        ? [pjFile['keep-updated'], 'keep-updated']
+        : [[], 'keepUpdated'];
 }
