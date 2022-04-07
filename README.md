@@ -28,12 +28,12 @@ Add the following array to your `package.json`:
 "keepUpdated": []
 ```
 
-Populate the array with desired packages either manually or by running `keep-updated add package1 package2`.
+Populate the array with desired packages either manually or by running `npx @public-js/keep-updated add package1 package2`.
 
 Execute it directly:
 
 ```shell
-keep-updated update --audit-fix
+npx @public-js/keep-updated update --audit-fix
 ```
 
 or add the following to your root `package.json` file:
@@ -44,16 +44,16 @@ or add the following to your root `package.json` file:
 }
 ```
 
-Run `keep-updated --help` to find out about other options.
+Run `npx @public-js/keep-updated --help` to find out about other options.
 
 ## How does it work
 
 The package will identify your preferred manager based on the lock-file,
-fetch all the dependencies listed in the `keep-updated` array and install
+fetch all the dependencies listed in the `keepUpdated` (or `keep-updated`) array and install
 **the latest desired versions** of the listed packages.
 
-Then all changes made to the `package.json` will be reverted retaining only lock-file
-information.
+Then all changes, except sorting, made to the `package.json` will be reverted
+retaining only lock-file changes.
 
 You might want to include this package as an additional step to your CI pipeline
 e.g. prior to merging branches into `main`.

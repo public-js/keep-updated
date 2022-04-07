@@ -68,6 +68,16 @@ function updatePackagesInBatch(
             const version = devDeps[pkg];
             updatePackage(`${pkg}@${version}`, pmc.addDev, 'devDependency');
             updated[pkg] = { version, type: 'devDependencies' };
+        } else if (pkg.includes('*')) {
+            const matcher = new RegExp(`^${pkg.replace(/\*/g, '.+')}$`);
+            const packagesMatch: string[] = [
+                ...Object.keys(deps).filter((pkgM: string) => matcher.test(pkgM)),
+                ...Object.keys(devDeps).filter((pkgM: string) => matcher.test(pkgM)),
+            ].sort();
+            const updatedWithMatch: UpdatedPackages = updatePackagesInBatch(packagesMatch, pmc, { deps, devDeps });
+            for (const [pkgM, upd] of Object.entries(updatedWithMatch)) {
+                updated[pkgM] = upd;
+            }
         } else {
             logger.warn(`Cannot find ${pkg} in package.json`);
         }
