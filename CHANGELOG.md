@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/public-js/keep-updated/compare/2.0.2...2.1.0) (2022-04-07)
+
+
+### Features
+
+* add ability to provide glob-like package names ([8ad4e4e](https://github.com/public-js/keep-updated/commit/8ad4e4e5ddf3a0ccfdb7351645a4e3af00934a48))
+* add ability to provide glob-like package names ([f77c157](https://github.com/public-js/keep-updated/commit/f77c1575622fb17ad43ad0d49781d4d869caf027))
+
 ### [2.0.2](https://github.com/public-js/keep-updated/compare/2.0.1...2.0.2) (2022-04-02)
 
 
