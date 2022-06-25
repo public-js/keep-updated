@@ -1,5 +1,6 @@
 {
-  "extends": "@nrwl/workspace/presets/core.json",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "extends": "nx/presets/core.json",
   "npmScope": "public-js",
   "affected": {
     "defaultBase": "origin/main"
@@ -14,6 +15,11 @@
         "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "NzI5OGU5ZGItYmUzMi00MjIwLTk1NTQtZTg3OGI5ZjU5OThkfHJlYWQtd3JpdGU="
       }
+    }
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
     }
   }
 }
