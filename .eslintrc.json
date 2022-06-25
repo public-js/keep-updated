@@ -28,6 +28,20 @@
       "rules": {}
     },
     {
+      "files": ["test.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "unicorn/no-array-callback-reference": "off"
+      }
+    },
+    {
+      "files": ["jest.config.ts"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off",
+        "unicorn/prefer-module": "off"
+      }
+    },
+    {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
